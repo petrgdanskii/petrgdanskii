@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>rock paper scissors</title>
+<style>
+@font-face {
+    font-family: "bennieb"; /* Гарнитура шрифта */
+    src: url(fonts/bennieb.ttf); /* Путь к файлу со шрифтом */
+   }
+   h2 {
+    font-family: bennieb;
+   }
+
+body {background-image: url(styles/images/background.jpg)}
+
+#common { position: absolute; left: 0; top: 0; width: 100%; padding-top: 56.25%;}
+#left { position: absolute; left: 0; top: 0; width: 50%; height: 100%}
+#right { position: absolute; right: 0; top: 0; width: 50%; height: 100% }
+
+#headers {color:#ffffff; position:absolute; top: 12%; margin-top: -1.5%; left: 50%; margin-left: -9%; width: 18%}
+#text1 {position:absolute; top: 45%; margin-top: -1.5%; left: 46%; margin-left: -9%; width: 18%}
+#text2 {position:absolute; top: 46%; margin-top: 0.8; left: 55.5%; margin-left: -4.5%; width: 9%}
+
+
+#rock1 {width: 24%; position:absolute; top: 31%; margin-top: -6%; left: 30%; margin-left: -6%;}
+#scissors1 {width: 24%; position:absolute; top: 31%; margin-top: -6%; left: 68%; margin-left: -6%;}
+#paper1 {width: 24%; position:absolute; top: 62%; margin-top: -6%; left: 50%; margin-left: -6%;}
+
+#rock2 {width: 24%; position:absolute; top: 50%; margin-top: -6%; left: 25%; margin-left: -6%;}
+#scissors2 {width: 24%; position:absolute; top: 25%; margin-top: -6%; left: 63%; margin-left: -6%;}
+#paper2 {width: 24%; position:absolute; top: 50%; margin-top: -6%; left: 75%; margin-left: -6%;}
+#lizard2 {width: 24%; position:absolute; top: 25%; margin-top: -6%; left: 36%; margin-left: -6%;}
+#spock2 {width: 24%; position:absolute; top: 67%; margin-top: -6%; left: 50%; margin-left: -6%;}
+
+
+
+
+</style>
+
+</head>
+<body>
+
+<div id="common">
+        <h2 align="center"; id="headers" >good luck))0)0)</h2>
+
+        <div id="left">
+                <img align="center"; id="text1" src="styles\images\too.png">
+		
+	</div>
+	
+        <div id="right">
+		<img align="center"; id="text2" src="styles\images\choose.png">
+		<img id="rock1" src="styles\images\rock.png" usemap="#rock"> <map name="rock"><area onclick="rock()" shape="default"></map>
+		<img id="scissors1" src="styles\images\scissors.png" usemap="#scissors"> <map name="scissors"><area onclick="scissors()" shape="default"></map>
+		<img id="paper1" src="styles\images\paper.png" usemap="#paper"> <map name="paper"><area onclick="paper()" shape="default"></map>
+	
+	</div>
+
+
+
+</div>
+
+<script>
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
+var last = 1;
+var last_computer = 1;
+
+var number = 0;
+
+
+var local = [
+        [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
+        [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
+        [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+];
+
+
+
+function predictor(last_move, last_computer, transition_matrix){
+        console.log(transition_matrix[last_move][last_computer]);
+        find_here = transition_matrix[last_move][last_computer];
+        
+        var maxnumber = 0;
+        for (var i = 0; i < find_here.length; i++) {
+            if (find_here[i] > find_here[maxnumber]) maxnumber = i;
+        }
+        console.log(maxnumber, "maxnum");
+        return maxnumber
+        
+}
+
+function automatic_opponent(predicted){
+        if (predicted == 0){
+                return 2;
+        }
+        else{
+                return predicted-1;
+        }
+        
+}
+
+      
+
+function rock(){
+        
+
+        predicted = predictor(last, last_computer, local);
+        var computerchoice = automatic_opponent(predicted);
+        console.log(computerchoice, "computerchoice", "aa");
+        console.log("help!!! you are here"); 
+        var url = "";
+        if (computerchoice == 0) url = "drawrock.html";
+        if (computerchoice == 0) console.log(computerchoice, "computerchoice", "you are here"); 
+        if (computerchoice == 1) url = "scissorsrock.html";
+        if (computerchoice == 1) console.log(computerchoice, "computerchoice", "you are here1"); 
+        if (computerchoice == 2) url = "paperrock.html";
+        if (computerchoice == 2) console.log(computerchoice, "computerchoice", "you are here2"); 
+	
+	local[last][last_computer][0] = local[last][last_computer][0]+1;
+	
+	number = number + 1;
+        last = 0;
+        last_computer = computerchoice;
+	console.log(url);
+        window.open(url);
+}
+
+function scissors(){
+        
+
+        predicted = predictor(last, last_computer, local);
+        var computerchoice = automatic_opponent(predicted);
+        console.log(computerchoice, "computerchoice", "aa");
+        console.log("help!!! you are scissors"); 
+        var url = "";
+        if (computerchoice == 0) url = "rockscissors.html";
+        if (computerchoice == 1) url = "drawscissors.html";
+        if (computerchoice == 2) url = "paperscissors.html";
+	
+        
+        local[last][last_computer][1] = local[last][last_computer][1]+1;
+	
+	
+	
+	number = number + 1; 
+        last = 1;
+        last_computer = computerchoice;
+        window.open(url);
+}
+
+function paper(computerchoice){
+        
+
+        predicted = predictor(last, last_computer, local);
+        var computerchoice = automatic_opponent(predicted);
+        console.log(computerchoice, "computerchoice", "aa");
+        console.log("help!!! you are paper"); 
+        console.log(computerchoice, "computerchoice"); 
+        var url = "";
+        if (computerchoice == 0) url = "rockpaper.html";
+        if (computerchoice == 1) url = "scissorspaper.html";
+        if (computerchoice == 1) console.log(computerchoice, "aaaa");  
+        if (computerchoice == 2) url = "drawpaper.html";
+	
+        local[last][last_computer][2] = local[last][last_computer][2]+1;
+	
+	
+	number = number + 1;
+        last = 2;
+        last_computer = computerchoice;
+        window.open(url);
+}
+
+
+
+</script>
+
+</body>
+</html>
+
