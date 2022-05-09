@@ -61,6 +61,23 @@ body {background-image: url(styles/images/background.jpg)}
 </div>
 
 <script>
+	
+	
+function saveToFirebase(click) {
+    
+
+    firebase.database().ref('click').push().set(click)
+        .then(function(snapshot) {
+            success(); // some success method
+        }, function(error) {
+            console.log('error' + error);
+            error(); // some error method
+        });
+}
+
+
+	
+	
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
@@ -107,6 +124,7 @@ function automatic_opponent(predicted){
 
 function rock(){
         
+	saveToFirebase(0);
 
         predicted = predictor(last, last_computer, local);
         var computerchoice = automatic_opponent(predicted);
@@ -131,6 +149,7 @@ function rock(){
 
 function scissors(){
         
+	saveToFirebase(1);
 
         predicted = predictor(last, last_computer, local);
         var computerchoice = automatic_opponent(predicted);
@@ -154,6 +173,7 @@ function scissors(){
 
 function paper(computerchoice){
         
+	saveToFirebase(2);
 
         predicted = predictor(last, last_computer, local);
         var computerchoice = automatic_opponent(predicted);
