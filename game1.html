@@ -105,16 +105,7 @@ function saveToFirebase(click) {
         });
 }
 
-function saveToFirebase1(click) {
-    firebase.database().ref("game1addirional").push(click)
-        .then(function(snapshot) {
-            success(); // some success method
-            console.log('success');
-        }, function(error) {
-            console.log('error' + error);
-            error(); // some error method
-        });
-}
+
 
 
 function getRandomInt(max) {
