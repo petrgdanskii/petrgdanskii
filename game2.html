@@ -136,7 +136,7 @@ function globaltostring(global){
 
 function stringtoglobal(globalstring){
         var a1 = globalstring.split(',');
-        for (var i = 0; i < 27; i++) {
+        for (var i = 0; i < 125; i++) {
                 a1[i] = Number(a1[i]);}
 
         var a2 = [
@@ -203,6 +203,13 @@ function rock(){
         firebase.database().ref("games").once('value', function(snapshot) {
         
                 global = stringtoglobal(snapshot.child("game2").val());
+
+                for (var i = 0; i < 5; i++) {
+                for (var j = 0; j < 5; j++) {
+                        for (var k = 0; k < 5; k++) {
+                                console.log(global[i][j][k]);
+                                console.log(typeof(global[i][j][k]));}}}
+        
                 console.log(2/(number+2), 1-2/(number+2), global[0][0][0], local[0][0][0], global[0][0][0]*2/(number+2)+local[0][0][0]*(1-2/(number+2)));
 
                 var strange = global;
