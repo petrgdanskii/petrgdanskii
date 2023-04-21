@@ -1,11 +1,11 @@
-<!DOCTYPE html>         
+<!DOCTYPE html>
 <html>
 <head>
 <title>rock paper scissors</title>
 <style>
 @font-face {
-    font-family: "bennieb"; 
-    src: url(fonts/bennieb.ttf); 
+    font-family: "bennieb"; /* Гарнитура шрифта */
+    src: url(fonts/bennieb.ttf); /* Путь к файлу со шрифтом */
    }
    h2 {
     font-family: bennieb;
@@ -34,12 +34,11 @@ body {background-image: url(styles/images/background.jpg)}
 
 
 
+
 </style>
+
 </head>
 <body>
-
-<script src="https://www.gstatic.com/firebasejs/4.3.0/firebase.js"></script>
-
 
 <div id="common">
         <h2 align="center"; id="headers" >good luck))0)0)</h2>
@@ -61,52 +60,7 @@ body {background-image: url(styles/images/background.jpg)}
 
 </div>
 
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.7.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-
-
- 
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyD9sHWaRLKz-DDlSwXnVesybomVx995mqU",
-    authDomain: "rock-paper-scissors-3db56.firebaseapp.com",
-    projectId: "rock-paper-scissors-3db56",
-    databaseURL: "https://rock-paper-scissors-3db56-default-rtdb.firebaseio.com",
-    storageBucket: "rock-paper-scissors-3db56.appspot.com",
-    messagingSenderId: "893363368786",
-    appId: "1:893363368786:web:445cafcd45e72cdd74408b",
-    measurementId: "G-HRVPPM9QT1"
-  };
-
-  console.log("firebaseConfig", firebaseConfig);
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-  firebase.initializeApp(firebaseConfig);
-  //console.log("app", app);
-  //console.log("analytics", analytics);
-
-
-function saveToFirebase(click) {
-        firebase.database().ref("game1").push().set(click)
-        .then(function(snapshot) {
-                success(); // some success method
-                console.log('success');
-        }, function(error) {
-                console.log('error' + error);
-                error(); // some error method
-        });
-}
-
-
-
+<script>
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
@@ -117,51 +71,18 @@ var last_computer = 1;
 
 var number = 0;
 
+
 var local = [
         [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
         [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
         [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
 ];
 
-let global = [
-        [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
-        [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
-        [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
-];
-
-function globaltostring(global){
-        return global.join()}
-
-function stringtoglobal(globalstring){
-        var a1 = globalstring.split(',');
-        for (var i = 0; i < 27; i++) {
-                a1[i] = Number(a1[i]);}
-
-        var a2 = [
-                [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
-                [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
-                [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
-        ];
-        var s = 0;
-        for (var i = 0; i < 3; i++) {
-                for (var j = 0; j < 3; j++) {
-                        for (var k = 0; k < 3; k++) {
-                                a2[i][j][k] = a1[s];
-                                s = s + 1;}}}
-
-
-        /*for (var i = 0; i < 3; i++) {
-                for (var j = 0; j < 3; j++) {
-                        for (var k = 0; k < 3; k++) {
-                                console.log(a2[i][j][k]);
-                                console.log(typeof(a2[i][j][k]));}}}*/
-        
-        return a2}
 
 
 function predictor(last_move, last_computer, transition_matrix){
         console.log(transition_matrix[last_move][last_computer]);
-        var find_here = transition_matrix[last_move][last_computer];
+        find_here = transition_matrix[last_move][last_computer];
         
         var maxnumber = 0;
         for (var i = 0; i < find_here.length; i++) {
@@ -182,128 +103,81 @@ function automatic_opponent(predicted){
         
 }
 
+function random_opponent(){
+	return getRandomInt(3);        
+}
 
 function rock(){
         
-        let userRef1 = firebase.database().ref("games");
-        firebase.database().ref("games").once('value', function(snapshot) {
-        
-                global = stringtoglobal(snapshot.child("game1").val());
-                console.log(2/(number+2), 1-2/(number+2));
 
-                var strange = global;
-                for (var i = 0; i < 3; i++) {
-                        for (var j = 0; j < 3; j++) {
-                                for (var k = 0; k < 3; k++) {
-                                        strange[i][j][k] = global[i][j][k]*2/(number+2)+local[i][j][k]*(1-2/(number+2))
-                                        }}}
-                console.log(globaltostring(strange));
-
-                var predicted = predictor(last, last_computer, strange);
-                var computerchoice = automatic_opponent(predicted);
-                
-                var url = "";
-                if (computerchoice == 0) url = "drawrock.html";
-                if (computerchoice == 0) console.log(computerchoice, "computerchoice", "you are here"); 
-                if (computerchoice == 1) url = "scissorsrock.html";
-                if (computerchoice == 1) console.log(computerchoice, "computerchoice", "you are here1"); 
-                if (computerchoice == 2) url = "paperrock.html";
-                if (computerchoice == 2) console.log(computerchoice, "computerchoice", "you are here2"); 
-                
-                local[last][last_computer][0] = local[last][last_computer][0]+1;
-                global[last][last_computer][0] = global[last][last_computer][0]+1;
-
-                number = number + 1;
-                last = 0;
-                last_computer = computerchoice;
-                console.log(url);
-                window.open(url);
-                
-                userRef1.update({"game1": globaltostring(global)});
-        
-        });         
+        predicted = predictor(last, last_computer, local);
+        var computerchoice = automatic_opponent(predicted);
+        console.log(computerchoice, "computerchoice", "aa");
+        console.log("help!!! you are here"); 
+        var url = "";
+        if (computerchoice == 0) url = "drawrock.html";
+        if (computerchoice == 0) console.log(computerchoice, "computerchoice", "you are here"); 
+        if (computerchoice == 1) url = "scissorsrock.html";
+        if (computerchoice == 1) console.log(computerchoice, "computerchoice", "you are here1"); 
+        if (computerchoice == 2) url = "paperrock.html";
+        if (computerchoice == 2) console.log(computerchoice, "computerchoice", "you are here2"); 
+	
+	local[last][last_computer][0] = local[last][last_computer][0]+1;
+	
+	number = number + 1;
+        last = 0;
+        last_computer = computerchoice;
+	console.log(url);
+        window.open(url);
 }
-window.rock = rock;
 
 function scissors(){
-        let userRef1 = firebase.database().ref("games");
-        firebase.database().ref("games").once('value', function(snapshot) {
         
-                global = stringtoglobal(snapshot.child("game1").val());
-                console.log(2/(number+2), 1-2/(number+2));
-                var strange = global;
-                for (var i = 0; i < 3; i++) {
-                        for (var j = 0; j < 3; j++) {
-                                for (var k = 0; k < 3; k++) {
-                                        strange[i][j][k] = global[i][j][k]*2/(number+2)+local[i][j][k]*(1-2/(number+2))
-                                        }}}
-                console.log(globaltostring(strange));
 
-                var predicted = predictor(last, last_computer, strange);
-                var computerchoice = automatic_opponent(predicted);
-                console.log(computerchoice, "computerchoice", "aa");
-                console.log("help!!! you are scissors"); 
-                var url = "";
-                if (computerchoice == 0) url = "rockscissors.html";
-                if (computerchoice == 1) url = "drawscissors.html";
-                if (computerchoice == 2) url = "paperscissors.html";
-                
-                
-                local[last][last_computer][1] = local[last][last_computer][1]+1;
-                global[last][last_computer][1] = global[last][last_computer][1]+1;
-                
-                
-                number = number + 1; 
-                last = 1;
-                last_computer = computerchoice;
-                window.open(url);
-                
-                userRef1.update({"game1": globaltostring(global)});
+        predicted = predictor(last, last_computer, local);
+        var computerchoice = automatic_opponent(predicted);
+        console.log(computerchoice, "computerchoice", "aa");
+        console.log("help!!! you are scissors"); 
+        var url = "";
+        if (computerchoice == 0) url = "rockscissors.html";
+        if (computerchoice == 1) url = "drawscissors.html";
+        if (computerchoice == 2) url = "paperscissors.html";
+	
         
-        });     
+        local[last][last_computer][1] = local[last][last_computer][1]+1;
+	
+	
+	
+	number = number + 1; 
+        last = 1;
+        last_computer = computerchoice;
+        window.open(url);
 }
 
-window.scissors = scissors;
-
-function paper(){
-
-        let userRef1 = firebase.database().ref("games");
-        firebase.database().ref("games").once('value', function(snapshot) {
+function paper(computerchoice){
         
-                global = stringtoglobal(snapshot.child("game1").val());
-                console.log(2/(number+2), 1-2/(number+2));
-                var strange = global;
-                for (var i = 0; i < 3; i++) {
-                        for (var j = 0; j < 3; j++) {
-                                for (var k = 0; k < 3; k++) {
-                                        strange[i][j][k] = global[i][j][k]*2/(number+2)+local[i][j][k]*(1-2/(number+2))
-                                        }}}
-                console.log(globaltostring(strange));
 
-                var predicted = predictor(last, last_computer, strange);
-                var computerchoice = automatic_opponent(predicted);
-                console.log(computerchoice, "computerchoice", "aa");
-                console.log("help!!! you are paper"); 
-                console.log(computerchoice, "computerchoice"); 
-                var url = "";
-                if (computerchoice == 0) url = "rockpaper.html";
-                if (computerchoice == 1) url = "scissorspaper.html";
-                if (computerchoice == 1) console.log(computerchoice, "aaaa");  
-                if (computerchoice == 2) url = "drawpaper.html";
-                
-                local[last][last_computer][2] = local[last][last_computer][2]+1;
-                global[last][last_computer][2] = global[last][last_computer][2]+1;
-                
-                number = number + 1;
-                last = 2;
-                last_computer = computerchoice;
-                window.open(url);
-                
-                userRef1.update({"game1": globaltostring(global)});
-        
-        });     
+        predicted = predictor(last, last_computer, local);
+        var computerchoice = automatic_opponent(predicted);
+        console.log(computerchoice, "computerchoice", "aa");
+        console.log("help!!! you are paper"); 
+        console.log(computerchoice, "computerchoice"); 
+        var url = "";
+        if (computerchoice == 0) url = "rockpaper.html";
+        if (computerchoice == 1) url = "scissorspaper.html";
+        if (computerchoice == 1) console.log(computerchoice, "aaaa");  
+        if (computerchoice == 2) url = "drawpaper.html";
+	
+        local[last][last_computer][2] = local[last][last_computer][2]+1;
+	
+	
+	number = number + 1;
+        last = 2;
+        last_computer = computerchoice;
+        window.open(url);
 }
-window.paper = paper;
+
+
 
 </script>
 
